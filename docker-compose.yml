@@ -1,0 +1,11 @@
+services:
+
+  transaction-simulation-test-db:
+    container_name: transaction-simulation-test-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: transaction-simulation-test-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
