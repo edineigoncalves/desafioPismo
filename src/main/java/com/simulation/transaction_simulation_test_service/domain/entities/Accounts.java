@@ -13,9 +13,10 @@ public class Accounts {
     public Accounts() {
     }
 
-    public Accounts(Integer id, String documentNumber, List<Transactions> transactions) {
+    public Accounts(Integer id, String documentNumber, Double availableCreditLimit, List<Transactions> transactions) {
         this.id = id;
         this.documentNumber = documentNumber;
+        this.availableCreditLimit = availableCreditLimit;
         this.transactions = transactions;
     }
 
@@ -36,6 +37,8 @@ public class Accounts {
             updatable = false
     )
     private String documentNumber;
+    @Column(name = "available_credit_limit", nullable = false)
+    private Double availableCreditLimit;
 
     @OneToMany(
             mappedBy = "account",
@@ -50,6 +53,14 @@ public class Accounts {
 
     public String getDocumentNumber() {
         return documentNumber;
+    }
+
+    public Double getAvailableCreditLimit() {
+        return availableCreditLimit;
+    }
+
+    public void setAvailableCreditLimit(Double availableCreditLimit) {
+        this.availableCreditLimit = availableCreditLimit;
     }
 
     public static class Builder {

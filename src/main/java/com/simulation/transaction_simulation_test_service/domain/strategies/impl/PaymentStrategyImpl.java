@@ -4,6 +4,7 @@ import com.simulation.transaction_simulation_test_service.domain.entities.Accoun
 import com.simulation.transaction_simulation_test_service.domain.entities.Transactions;
 import com.simulation.transaction_simulation_test_service.domain.entities.enums.OperationType;
 import com.simulation.transaction_simulation_test_service.domain.strategies.OperationStrategy;
+import com.simulation.transaction_simulation_test_service.resources.repositories.AccountsRepository;
 import com.simulation.transaction_simulation_test_service.resources.repositories.TransactionsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +19,23 @@ public class PaymentStrategyImpl implements OperationStrategy {
 
     private final TransactionsRepository transactionsRepository;
 
-    public PaymentStrategyImpl(TransactionsRepository transactionsRepository) {
+    private final AccountsRepository accountsRepository;
+
+    public PaymentStrategyImpl(TransactionsRepository transactionsRepository,
+                               AccountsRepository accountsRepository) {
         this.transactionsRepository = transactionsRepository;
+        this.accountsRepository = accountsRepository;
     }
 
     @Override
     public void processOperation(Accounts account, Double amount, OperationType operationType) {
         logger.info("Initiate a buy in cash operation to account: {}", account.getId());
+
+        double availableCredit = account.getAvailableCreditLimit();
+        double transactionAmount = Math.abs(amount);
+
+        account.setAvailableCreditLimit(availableCredit+transactionAmount);
+        accountsRepository.save(account);
 
         var newTransaction = new Transactions.Builder()
                 .setAccountId(account)

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AccountsFactory {
     public static Accounts sample() {
-        return new Accounts(1, "80321522028", List.of());
+        return new Accounts(1, "80321522028",100.00, List.of());
     }
 
     public static Accounts sampleWithCpf(String cpf) {

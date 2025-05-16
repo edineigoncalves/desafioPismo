@@ -1,0 +1,2 @@
+ALTER TABLE accounts
+ADD COLUMN available_credit_limit DOUBLE PRECISION NULL DEFAULT 0.0;
